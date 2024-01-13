@@ -1,3 +1,42 @@
+'''
+if 선물 더 많이 주면 담달에 하나 받음
+else면 선물지수 비교 후 작은 사람에게 하나 받음 
+
+선물지수 : 준 선물 수 - 받은 선물 수 (음수 가능)
+
+'''
+
+def whos_more(idx,idx2,give_info,receive_info):
+    if give_info[idx][idx2] > give_info[idx2][idx]:
+        return idx
+    
+    elif give_info[idx][idx2] < give_info[idx2][idx]:
+        return idx2
+    
+    else:
+        name_score = sum(give_info[idx]) - sum(receive_info[idx])
+        name2_score = sum(give_info[idx2]) - sum(receive_info[idx2])
+
+        if name_score > name2_score:
+            return idx
+        elif name_score < name2_score:
+            return idx2
+        else:
+            return -1 # 선물 지수가 같은 경우
+        
+    
+    
+def get_gift_score(idx,idx2,give_info,receive_info):
+    
+    name_score = sum(give_info[idx]) - sum(receive_info[idx])
+    name2_score = sum(give_info[idx2]) - sum(receive_info[idx2])
+
+    if name_score > name2_score:
+        return idx
+    elif name_score < name2_score:
+        return idx2
+    
+    return -1 # 선물 지수가 같은 경우
 
 def solution(friends, gifts):
     from collections import defaultdict
@@ -25,33 +64,25 @@ def solution(friends, gifts):
     for idx, name in enumerate(friends):
         for idx2, name2 in enumerate(friends):
             if idx == idx2: continue
-            
+
             if give_info[idx][idx2] or give_info[idx2][idx]: # 주고 받은 기록이 있다면
+                
+                result = whos_more(idx,idx2,give_info,receive_info)
 
-                if give_info[idx][idx2] > give_info[idx2][idx]:
-                    answer_list[name] += 1
-                elif give_info[idx][idx2] < give_info[idx2][idx]:
-                    answer_list[name2] += 1
-                else:
-                    name_score = sum(give_info[idx]) - sum(receive_info[idx])
-                    name2_score = sum(give_info[idx2]) - sum(receive_info[idx2])
-                    
-                    if name_score > name2_score:
-                        answer_list[name] += 1 
-                    elif name_score < name2_score:
-                        answer_list[name2] += 1
-                    
+                if result < 0: continue
+                
+                answer_list[num_to_name[result]] += 1
+                  
             else: # 없다면
+                result = get_gift_score(idx,idx2,give_info,receive_info)
 
-                name_score = sum(give_info[idx]) - sum(receive_info[idx])
-                name2_score = sum(give_info[idx2]) - sum(receive_info[idx2])
+                if result < 0: continue 
+                
+                answer_list[num_to_name[result]] += 1
 
-                if name_score > name2_score:
-                    answer_list[name] += 1 
-                elif name_score < name2_score:
-                    answer_list[name2] += 1
-
+                
     if answer_list:
+        print(answer_list)
         answer = max(answer_list.values()) // 2
     else:
         answer = 0
