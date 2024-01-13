@@ -2,8 +2,7 @@
 먹이 우선순위 : 거리가 작은 것 -> x가 작은 것 -> y가 작은 것
 '''
 
-#먹이를 찾는 함수, 크기가 작아도 해당 위치까지 갈 수 있어야함
-
+#먹이를 향해 이동하는 칸의 개수의 최솟값 구하는 함수
 def bfs(shark_x,shark_y,feed_x,feed_y,shark_size):
     from collections import deque
 
@@ -29,10 +28,9 @@ def bfs(shark_x,shark_y,feed_x,feed_y,shark_size):
                 d.append((a, b, distance+1))
     return -1
 
+#먹이를 찾는 함수, 크기가 작아도 해당 위치까지 갈 수 있어야함
 def  search_feed(arr, shark_size):
 
-    
-    
     feed_list = []
 
     for i in range(N):
@@ -50,7 +48,8 @@ def  search_feed(arr, shark_size):
         return feed_list[0]
     
     return [-1, -1, -1]
-                
+
+# 먹이 먹고 레벨 업데이트       
 def eating(feed_x,feed_y,shark_x,shark_y,shark_size,level, arr):
     
     arr[feed_x][feed_y] = 0
@@ -63,13 +62,7 @@ def eating(feed_x,feed_y,shark_x,shark_y,shark_size,level, arr):
 
     return arr, shark_size, level, shark_x, shark_y
 
-    
 
-     
-    
-
-
-#먹이를 향해 이동하는 칸의 개수의 최솟값 구하는 함수
 if __name__ == '__main__':
     import sys
     input = sys.stdin.readline
@@ -91,7 +84,7 @@ if __name__ == '__main__':
         distance, feed_x, feed_y = search_feed(arr, shark_size) # 먹이를 찾는데,
         if distance > 0: # 먹을 수 있는 먹이가 있다면
             arr, shark_size, level, shark_x, shark_y =eating(feed_x,feed_y,shark_x,shark_y,shark_size,level, arr) 
-            time += distance 먹으러 감
+            time += distance #먹으러 감
         else:
             break
     
