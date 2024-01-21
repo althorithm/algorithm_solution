@@ -1,5 +1,3 @@
-def get_bigger():
-    return
 
 def backtracking(password,j_cnt,m_cnt): # 암호 후보, 자음 개수, 모음 개수
     
